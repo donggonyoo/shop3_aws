@@ -1,5 +1,5 @@
 # 1단계: 빌드 환경
-FROM openjdk:17-jdk-slim as builder
+FROM openjdk:17-jdk-slim AS builder
 WORKDIR /app
 COPY . .
 RUN ls -l /app/gradlew
