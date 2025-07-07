@@ -4,7 +4,10 @@ plugins {
 	id 'org.springframework.boot' version '3.5.3'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
-
+jar {
+	enabled = true
+	archiveFileName = 'shop3-0.0.1-SNAPSHOT.jar'
+}
 group = 'gradleProject'
 version = '0.0.1-SNAPSHOT'
 
