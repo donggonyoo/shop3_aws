@@ -5,6 +5,7 @@ FROM openjdk:17-jdk-slim AS builder
 WORKDIR /app
 COPY . .
 RUN chmod +x ./gradlew
+RUN ./gradlew build -x test --stacktrace --info
 RUN ./gradlew build -x test
 
 # 2단계 : 실제 런타임 환경
