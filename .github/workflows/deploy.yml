@@ -1,0 +1,56 @@
+#workflows이름 Action에 표시되는 이름
+name: Docker Deploy to EC2
+
+#실행조건 .
+on:
+  push:
+    branches:
+      - main #push할 branch명
+
+#main에 push 시 실행하는곳
+#실행할 기능 설정
+jobs:
+  deploy:
+    name: Deploy to EC2 with Docker #JOB의 이름
+    runs-on: ubuntu-latest #실행환경
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3 #GITHUB 제공 액션
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2 #멀티플랫폼 빌드가능 도구
+
+      - name: Build Docker image
+        run: docker build -t gdj90/shop3:${{ github.run_number }} . #shop3를 도커이미지로 생성
+
+      - name: Save Docker image as tar
+        run: 
+          docker save gdj90/shop3:${{ github.run_number }} -o shop3.tar #이미지 압축파일 생성
+          chmod 644 shop3.tar #파일권한에 읽기 가능
+
+      - name: Copy image tar to EC2
+        uses: appleboy/scp-action@v0.1.7 #SSH SCP 프로토콜을 이용해 전송
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: "shop3.tar"
+          target: "/home/ubuntu"
+          overwrite: true   #파일이존재하면 덮어쓰기
+          strip_components: 0   #경로 유지 필요X
+
+      - name: Run Docker container on EC2 #EC2서버에 도커 컨테이너생성
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            docker stop shop3 || true         #shop3컨테이너 중지
+            docker rm shop3 || true         #shop3 컨테이너 제거 
+            docker image rm gdj90/shop3:${{ github.run_number }} || true  #기존이미지 제거
+            docker load -i shop3.tar      #압축파일 -> img파일로 복원
+            docker run -d --name shop3 -p 8080:8080 \     #도커 컨테이너 생성 , 실행
+              -v /home/ubuntu/upload:/app/upload \
+              gdj90/shop3:${{ github.run_number }}
