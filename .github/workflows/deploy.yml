@@ -23,7 +23,7 @@ jobs:
         run: docker rmi gdj90/shop3:latest || true
 
       - name: Build Docker image
-        run: docker buildx build --platform linux/amd64 -t gdj90/shop3:latest . --load} . # shop3를 도커 이미지로 생성
+        run: docker buildx build --platform linux/amd64 -t gdj90/shop3:latest . --load . # shop3를 도커 이미지로 생성
 
       - name: Save Docker image as tar
         run: |
