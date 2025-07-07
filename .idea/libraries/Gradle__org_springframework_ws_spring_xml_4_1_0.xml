@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.ws:spring-xml:4.1.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.springframework.ws" artifactId="spring-xml" version="4.1.0" baseVersion="4.1.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.ws/spring-xml/4.1.0/276d9ad18b754f313ba9e39f964b81a4456f26dd/spring-xml-4.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
