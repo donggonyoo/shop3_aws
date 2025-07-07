@@ -17,12 +17,12 @@ services:
     image: gdj90/shop3:latest
     container_name: shop3
     depends_on:
-      - db
+      - db # shop3 컨테이너는 db 컨테이너 실행 후 실행 됨. db 의존함
     ports:
       - "8080:8080"
     volumes:
       - ./upload:/app/upload
-    environment:
+    environment: # spring boot 에서 환경 변수로도 사용이 가능함
       SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/gdjdb
       SPRING_DATASOURCE_USERNAME: gduser
       SPRING_DATASOURCE_PASSWORD: 1234
