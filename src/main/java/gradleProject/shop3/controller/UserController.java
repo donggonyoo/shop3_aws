@@ -138,6 +138,7 @@ public class UserController {
         apiURL += "&state=" + state;
         model.addAttribute("userLoginDto",new UserLoginDto());
         model.addAttribute("apiURL",apiURL);
+        System.out.println("apiURL : "+apiURL);
         session.getServletContext().setAttribute("state", state);
         session.getServletContext().setAttribute("session", session);
         System.out.println("1.session.id="+session.getId());
@@ -255,9 +256,10 @@ public class UserController {
 
         String email = jsondetail.get("email").toString();
         String userid = email.substring(0,email.indexOf("@"));
-        User user = service.selectUser(userid);
+        User u = service.selectUser(userid);
+        UserDto user = userMapper.toDto(u);
         if(user==null) {
-            user = new User();
+            user = new UserDto();
             //user.setUserid(userid);
             user.setUsername(jsondetail.get("name").toString());
             String phone = jsondetail.get("mobile").toString();
@@ -265,7 +267,9 @@ public class UserController {
             user.setEmail(email);
             user.setPhoneno(phone);
             user.setChannel("naver");
-            service.userInsert(user);
+
+
+            service.userInsert(userMapper.toEntity(user));
         }
         session.setAttribute("loginUser", user);
         return "redirect:mypage?userid="+user.getUserid();
