@@ -2,10 +2,10 @@
 FROM openjdk:17-jdk-slim as builder
 WORKDIR /app
 COPY . .
-RUN ls -l /app/gradlew  # gradlew 파일 확인
+RUN ls -l /app/gradlew
 RUN chmod +x ./gradlew
 RUN ./gradlew build -x test --stacktrace --info
-RUN ls -l /app/build/libs/  # 빌드 결과물 확인
+RUN ls -l /app/build/libs/
 
 # 2단계: 런타임 환경
 FROM openjdk:17-jdk-slim
