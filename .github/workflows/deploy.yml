@@ -23,7 +23,7 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t gdj90/shop3:${{ github.run_number }} . #shop3를 도커이미지로 생성
-
+        
       - name: Save Docker image as tar
         run: 
           docker save gdj90/shop3:${{ github.run_number }} -o shop3.tar #이미지 압축파일 생성
