@@ -22,11 +22,11 @@ jobs:
         uses: docker/setup-buildx-action@v2 #멀티플랫폼 빌드가능 도구
 
       - name: Build Docker image
-        run: docker build -t gdj90/shop3:${{ github.run_number }} . #shop3를 도커이미지로 생성
+        run: docker build -t gdj90/shop3_aws:${{ github.run_number }} . #shop3를 도커이미지로 생성
 
       - name: Save Docker image as tar
         run:
-          docker save gdj90/shop3:${{ github.run_number }} -o shop3.tar #이미지 압축파일 생성
+          docker save gdj90/shop3_aws:${{ github.run_number }} -o shop3.tar #이미지 압축파일 생성
           chmod 644 shop3.tar #파일권한에 읽기 가능
 
       - name: Copy image tar to EC2
@@ -49,8 +49,8 @@ jobs:
           script: |
             docker stop shop3 || true         #shop3컨테이너 중지
             docker rm shop3 || true         #shop3 컨테이너 제거 
-            docker image rm gdj90/shop3:${{ github.run_number }} || true  #기존이미지 제거
+            docker image rm gdj90/shop3_aws:${{ github.run_number }} || true  #기존이미지 제거
             docker load -i shop3.tar      #압축파일 -> img파일로 복원
             docker run -d --name shop3 -p 8080:8080 \     #도커 컨테이너 생성 , 실행
               -v /home/ubuntu/upload:/app/upload \
-              gdj90/shop3:${{ github.run_number }}
+              gdj90/shop3_aws:${{ github.run_number }}
