@@ -1,7 +1,7 @@
 # Dockerfile : shop3프로젝트 폴더에 생성
 
 # 1단계 : 빌드 환경 (Gradle 사용)
-FROM openjdk:17-jdk-slim as builder
+FROM openjdk:17-jdk-slim AS builder
 WORKDIR /app
 COPY . .
 RUN chmod +x ./gradlew
