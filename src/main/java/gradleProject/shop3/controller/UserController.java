@@ -126,7 +126,7 @@ public class UserController {
         clientId = "RzGew7S74e2kohOsbFV7";
         String redirectURL = null;
         try {
-            redirectURL = URLEncoder.encode("http://localhost:8083/user/naverlogin","UTF-8");
+            redirectURL = URLEncoder.encode("http://localhost:8080/user/naverlogin","UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
