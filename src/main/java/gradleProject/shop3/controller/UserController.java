@@ -133,7 +133,7 @@ public class UserController {
         SecureRandom random = new SecureRandom();
         String state = new BigInteger(130,random).toString();
         String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
-        apiURL += "&client_id="+clientId;
+        apiURL += "&client_id="+clientId; //gg
         apiURL += "&redirect_uri="+redirectURL;
         apiURL += "&state=" + state;
         model.addAttribute("userLoginDto",new UserLoginDto());
